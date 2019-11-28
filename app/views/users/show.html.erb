@@ -1,0 +1,11 @@
+<h1><%= User.find(params[:id]).nickname %>'s Posts</h1>
+
+<p>Total points: </p>
+
+<div>
+  <%- User.find(params[:id]).posts.order('created_at DESC').limit(50).each do |post| %>
+    <div class="post">
+      <%= link_to post.title, post %>
+    </div>
+  <% end %>
+</div>

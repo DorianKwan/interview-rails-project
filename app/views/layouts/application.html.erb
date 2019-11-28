@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AnimikiiForum</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <nav>
+      <div style="display: inline-block; width: 60%;">
+        <%= link_to "Recent Posts", posts_url %> |
+        <%= link_to "Top Posts", top_posts_url %> | --- | 
+        <% Category.all.limit(4).each do |category| %>
+          <%= link_to category.name, category %> |
+        <% end %>
+      </div>
+      <div style="display: inline-block; width: 30%; text-align: right;">
+        <% if current_user %>
+          Logged in as <%= current_user.email %>.
+          <%= link_to "Log out", logout_session_path %>
+        <% else %>
+          <%= link_to "Log in", new_session_path %>
+        <% end %>
+      </div>
+    </nav>
+    <% if flash[:notice] %>
+      <div style="color: green">
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+    <% if flash[:error] %>
+      <div style="color: red">
+        <%= flash[:error] %>
+      </div>
+    <% end %>
+    <%= yield %>
+  </body>
+</html>

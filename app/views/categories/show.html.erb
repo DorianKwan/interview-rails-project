@@ -1,0 +1,12 @@
+<h1>Newest Posts in <%= @category.name %></h1>
+
+<% @posts.each do |post| %>
+  <p class="post">
+    <%= link_to post.title, post %>
+    posted by
+    <%= link_to post.created_by, post.user %>
+    <small>(<%= distance_of_time_in_words(post.created_at, Time.now) %> ago)</small>
+    - <%= post.post_comments.count %> comments
+    - <%= post.upvotes %> points
+  </p>
+<% end %>
