@@ -1,0 +1,29 @@
+<h1><%= link_to @post.category.name, @post.category %> > <%= @post.title %></h1>
+
+<p>
+   <%= @post.upvotes %> points. <%= link_to "Upvote", upvote_post_path(@post), method: :post %>
+</p>
+<p>
+Initially posted by <%= @post.created_by %> on
+<%= @post.created_at.to_s(:short) %>.
+
+<p class="top-comment">
+  <%= @post.content %>
+</p>
+
+<% @post.post_comments.order('created_at desc').each_with_index do |comment, index| %>
+  <p class="comment <%= index % 2 == 0 ? 'even' : 'odd' %>">
+  On <%= comment.created_at.to_s(:short) %> <strong><%= comment.created_by %></strong> wrote: </br>
+    <%= comment.content %>
+    <% if comment.comment_comments.count > 0 %>
+      <% comment.comment_comments.order('created_at desc').each_with_index do |child_comment| %>
+        <div style="margin-left: 30px">
+          <p class="comment <%= index % 2 == 0 ? 'even' : 'odd' %>">
+          <%= link_to child_comment.created_by, child_comment.user %> wrote: 
+          <%= child_comment.content %>
+          </p>
+        </div>
+      <% end %>
+    <% end %>
+  </p>
+<% end %>
